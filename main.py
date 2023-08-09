@@ -1,4 +1,3 @@
-from posixpath import expanduser
 import tkinter as tk
 
 # Colours
