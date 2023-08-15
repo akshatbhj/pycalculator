@@ -158,4 +158,50 @@ Button(
     fg=WHITE,
 ).place(x=430, y=300)
 
+# Fourth Row
+
+Button(
+    root,
+    text="1",
+    width=5,
+    height=1,
+    font=(DEFAULT_FONT, 30, "bold"),
+    bd=1,
+    bg=BUTTON_BG_2,
+    fg=WHITE,
+).place(x=10, y=400)
+
+Button(
+    root,
+    text="2",
+    width=5,
+    height=1,
+    font=(DEFAULT_FONT, 30, "bold"),
+    bd=1,
+    bg=BUTTON_BG_2,
+    fg=WHITE,
+).place(x=150, y=400)
+
+Button(
+    root,
+    text="3",
+    width=5,
+    height=1,
+    font=(DEFAULT_FONT, 30, "bold"),
+    bd=1,
+    bg=BUTTON_BG_2,
+    fg=WHITE,
+).place(x=290, y=400)
+
+Button(
+    root,
+    text="0",
+    width=11,
+    height=1,
+    font=(DEFAULT_FONT, 30, "bold"),
+    bd=1,
+    bg=BUTTON_BG_2,
+    fg=WHITE,
+).place(x=10, y=500)
+
 root.mainloop()
