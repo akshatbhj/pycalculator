@@ -5,6 +5,7 @@ BLACK_BG = "#17161b"
 BUTTON_BG = "#3697f5"
 BUTTON_BG_2 = "#2a2d36"
 WHITE = "#ffffff"
+ORANGE = "#fe9037"
 DEFAULT_FONT = "Arial"
 
 root = Tk()
@@ -203,5 +204,27 @@ Button(
     bg=BUTTON_BG_2,
     fg=WHITE,
 ).place(x=10, y=500)
+
+Button(
+    root,
+    text=".",
+    width=5,
+    height=1,
+    font=(DEFAULT_FONT, 30, "bold"),
+    bd=1,
+    bg=BUTTON_BG_2,
+    fg=WHITE,
+).place(x=290, y=500)
+
+Button(
+    root,
+    text="=",
+    width=5,
+    height=3,
+    font=(DEFAULT_FONT, 30, "bold"),
+    bd=1,
+    bg=ORANGE,
+    fg=WHITE,
+).place(x=430, y=400)
 
 root.mainloop()
