@@ -1,3 +1,4 @@
+import math
 import tkinter as tk
 
 # Color Palette
@@ -47,6 +48,30 @@ def calculate():
         equation = result
 
 
+def square_root():
+    global equation
+    try:
+        value = float(equation)
+        result = math.sqrt(value)
+        label_result.config(text=str(result))
+        equation = str(result)
+    except Exception:
+        label_result.config(text="Error")
+        equation = ""
+
+
+def square():
+    global equation
+    try:
+        value = float(equation)
+        result = value**2
+        label_result.config(text=str(result))
+        equation = str(result)
+    except Exception:
+        label_result.config(text="Error")
+        equation = ""
+
+
 def on_key(event):
     key = event.char
     if key.isdigit() or key in "+-*/.":
@@ -74,8 +99,8 @@ label_result.grid(row=0, column=0, columnspan=4, padx=20, pady=10)
 
 # Button Layout
 button_texts = [
-    ("", 1, 0),
-    ("%", 1, 1),
+    ("x²", 1, 0),
+    ("√", 1, 1),
     ("/", 1, 2),
     ("C", 1, 3),
     ("7", 2, 0),
@@ -108,6 +133,46 @@ for text, row, col, *args in button_texts:
             bg=BUTTON_BG_2,
             fg=BLACK_BG,
             command=clear,
+        ).grid(
+            row=row,
+            column=col,
+            rowspan=rowspan,
+            columnspan=colspan,
+            padx=5,
+            pady=5,
+            sticky="nsew",
+        )
+    elif text == "√":
+        tk.Button(
+            root,
+            text=text,
+            width=5,
+            height=2,
+            font=(DEFAULT_FONT, 18),
+            bd=0,
+            bg=BUTTON_BG,
+            fg=BLACK_BG,
+            command=square_root,
+        ).grid(
+            row=row,
+            column=col,
+            rowspan=rowspan,
+            columnspan=colspan,
+            padx=5,
+            pady=5,
+            sticky="nsew",
+        )
+    elif text == "x²":
+        tk.Button(
+            root,
+            text=text,
+            width=5,
+            height=2,
+            font=(DEFAULT_FONT, 18),
+            bd=0,
+            bg=BUTTON_BG,
+            fg=BLACK_BG,
+            command=square,
         ).grid(
             row=row,
             column=col,
