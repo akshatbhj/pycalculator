@@ -18,7 +18,6 @@ root.config(
 
 equation = ""
 
-
 def show(value):
     global equation
     equation += value
@@ -29,6 +28,17 @@ def clear():
     global equation
     equation = ""
     label_result.config(text=equation)
+
+def calculate():
+    global equation
+    result = ""
+    if equation != "":
+        try:
+            result = eval(equation)
+        except Exception:
+            result = "error"
+            equation = ""
+    label_result.config(text=result)
 
 
 label_result = Label(root, width=25, height=2, text="", font=(DEFAULT_FONT, 30))
@@ -70,7 +80,7 @@ Button(
     bd=1,
     bg=BUTTON_BG_2,
     fg=WHITE,
-    command=lambda: show("5"),
+    command=lambda: show("%"),
 ).place(x=290, y=100)
 
 Button(
@@ -245,6 +255,7 @@ Button(
     bd=1,
     bg=BUTTON_BG_2,
     fg=WHITE,
+    command=lambda: show("."),
 ).place(x=290, y=500)
 
 Button(
@@ -256,6 +267,7 @@ Button(
     bd=1,
     bg=ORANGE,
     fg=WHITE,
+    command=lambda: calculate(),
 ).place(x=430, y=400)
 
 root.mainloop()
