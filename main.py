@@ -1,22 +1,21 @@
-import tkinter
-from tkinter import *
+import tkinter as tk
 
-BLACK_BG = "#17161b"
-BUTTON_BG = "#3697f5"
-BUTTON_BG_2 = "#2a2d36"
-WHITE = "#ffffff"
-ORANGE = "#fe9037"
-DEFAULT_FONT = "Arial"
+# Color Palette
+BLACK_BG = "#000000"
+BUTTON_BG = "#F4F4F4"
+BUTTON_BG_2 = "#E0E0E0"
+WHITE = "#FFFFFF"
+ORANGE = "#F89F17"
+DEFAULT_FONT = "Segoe UI"
 
-root = Tk()
+root = tk.Tk()
 root.title("Pycalculator")
-root.geometry("570x600")
+root.geometry("350x600")
 root.resizable(False, False)
-root.config(
-    background=BLACK_BG,
-)
+root.config(background=BLACK_BG)
 
 equation = ""
+
 
 def show(value):
     global equation
@@ -29,245 +28,122 @@ def clear():
     equation = ""
     label_result.config(text=equation)
 
+
+def clear_all():
+    global equation
+    equation = ""
+    label_result.config(text=equation)
+
+
 def calculate():
     global equation
     result = ""
-    if equation != "":
+    if equation:
         try:
-            result = eval(equation)
+            result = str(eval(equation))
         except Exception:
-            result = "error"
-            equation = ""
-    label_result.config(text=result)
+            result = "Error"
+        label_result.config(text=result)
+        equation = result
 
 
-label_result = Label(root, width=25, height=2, text="", font=(DEFAULT_FONT, 30))
-label_result.pack()
+def on_key(event):
+    key = event.char
+    if key.isdigit() or key in "+-*/.":
+        show(key)
+    elif key == "\r":
+        calculate()
+    elif key == "\x08":
+        clear()
+    elif key.lower() == "c":
+        clear_all()
 
 
-# First Row
-
-Button(
+# Result Label
+label_result = tk.Label(
     root,
-    text="C",
-    width=5,
-    height=1,
-    font=(DEFAULT_FONT, 30, "bold"),
-    bd=1,
-    bg=BUTTON_BG,
-    fg=WHITE,
-    command=lambda: clear(),
-).place(x=10, y=100)
+    width=12,
+    height=2,
+    text="",
+    font=(DEFAULT_FONT, 24),
+    anchor="e",
+    background=BLACK_BG,
+    foreground=WHITE,
+)
+label_result.grid(row=0, column=0, columnspan=4, padx=20, pady=10)
 
-Button(
-    root,
-    text="/",
-    width=5,
-    height=1,
-    font=(DEFAULT_FONT, 30, "bold"),
-    bd=1,
-    bg=BUTTON_BG_2,
-    fg=WHITE,
-    command=lambda: show("/"),
-).place(x=150, y=100)
+# Button Layout
+button_texts = [
+    ("7", 1, 0),
+    ("8", 1, 1),
+    ("9", 1, 2),
+    ("/", 1, 3),
+    ("4", 2, 0),
+    ("5", 2, 1),
+    ("6", 2, 2),
+    ("*", 2, 3),
+    ("1", 3, 0),
+    ("2", 3, 1),
+    ("3", 3, 2),
+    ("-", 3, 3),
+    ("0", 4, 0),
+    (".", 4, 1),
+    ("=", 4, 2),
+    ("+", 4, 3),
+    ("C", 5, 0),
+    ("Clear All", 5, 1, 1, 2),
+]
 
-Button(
-    root,
-    text="%",
-    width=5,
-    height=1,
-    font=(DEFAULT_FONT, 30, "bold"),
-    bd=1,
-    bg=BUTTON_BG_2,
-    fg=WHITE,
-    command=lambda: show("%"),
-).place(x=290, y=100)
+for text, row, col, *args in button_texts:
+    rowspan, colspan = args or (1, 1)
+    if text == "C":
+        tk.Button(
+            root,
+            text=text,
+            width=5,
+            height=2,
+            font=(DEFAULT_FONT, 18),
+            bd=0,
+            bg=BUTTON_BG_2,
+            fg=BLACK_BG,
+            command=clear,
+        ).grid(
+            row=row,
+            column=col,
+            rowspan=rowspan,
+            columnspan=colspan,
+            padx=5,
+            pady=5,
+            sticky="nsew",
+        )
+    else:
+        tk.Button(
+            root,
+            text=text,
+            width=5 if text != "0" else 11,
+            height=2,
+            font=(DEFAULT_FONT, 18),
+            bd=0,
+            bg=BUTTON_BG,
+            fg=BLACK_BG,
+            command=lambda t=text: show(t) if t != "=" else calculate(),
+        ).grid(
+            row=row,
+            column=col,
+            rowspan=rowspan,
+            columnspan=colspan,
+            padx=5,
+            pady=5,
+            sticky="nsew",
+        )
 
-Button(
-    root,
-    text="*",
-    width=5,
-    height=1,
-    font=(DEFAULT_FONT, 30, "bold"),
-    bd=1,
-    bg=BUTTON_BG_2,
-    fg=WHITE,
-    command=lambda: show("*"),
-).place(x=430, y=100)
+# Configure grid weights
+for i in range(6):
+    root.grid_rowconfigure(i, weight=1)
+for i in range(4):
+    root.grid_columnconfigure(i, weight=1)
 
-
-# Second Row
-
-Button(
-    root,
-    text="7",
-    width=5,
-    height=1,
-    font=(DEFAULT_FONT, 30, "bold"),
-    bd=1,
-    bg=BUTTON_BG_2,
-    fg=WHITE,
-    command=lambda: show("7"),
-).place(x=10, y=200)
-
-Button(
-    root,
-    text="8",
-    width=5,
-    height=1,
-    font=(DEFAULT_FONT, 30, "bold"),
-    bd=1,
-    bg=BUTTON_BG_2,
-    fg=WHITE,
-    command=lambda: show("8"),
-).place(x=150, y=200)
-
-Button(
-    root,
-    text="9",
-    width=5,
-    height=1,
-    font=(DEFAULT_FONT, 30, "bold"),
-    bd=1,
-    bg=BUTTON_BG_2,
-    fg=WHITE,
-    command=lambda: show("9"),
-).place(x=290, y=200)
-
-Button(
-    root,
-    text="-",
-    width=5,
-    height=1,
-    font=(DEFAULT_FONT, 30, "bold"),
-    bd=1,
-    bg=BUTTON_BG_2,
-    fg=WHITE,
-    command=lambda: show("-"),
-).place(x=430, y=200)
-
-# Third Row
-
-Button(
-    root,
-    text="4",
-    width=5,
-    height=1,
-    font=(DEFAULT_FONT, 30, "bold"),
-    bd=1,
-    bg=BUTTON_BG_2,
-    fg=WHITE,
-    command=lambda: show("4"),
-).place(x=10, y=300)
-
-Button(
-    root,
-    text="5",
-    width=5,
-    height=1,
-    font=(DEFAULT_FONT, 30, "bold"),
-    bd=1,
-    bg=BUTTON_BG_2,
-    fg=WHITE,
-    command=lambda: show("5"),
-).place(x=150, y=300)
-
-Button(
-    root,
-    text="6",
-    width=5,
-    height=1,
-    font=(DEFAULT_FONT, 30, "bold"),
-    bd=1,
-    bg=BUTTON_BG_2,
-    fg=WHITE,
-    command=lambda: show("6"),
-).place(x=290, y=300)
-
-Button(
-    root,
-    text="+",
-    width=5,
-    height=1,
-    font=(DEFAULT_FONT, 30, "bold"),
-    bd=1,
-    bg=BUTTON_BG_2,
-    fg=WHITE,
-    command=lambda: show("+"),
-).place(x=430, y=300)
-
-# Fourth Row
-
-Button(
-    root,
-    text="1",
-    width=5,
-    height=1,
-    font=(DEFAULT_FONT, 30, "bold"),
-    bd=1,
-    bg=BUTTON_BG_2,
-    fg=WHITE,
-    command=lambda: show("1"),
-).place(x=10, y=400)
-
-Button(
-    root,
-    text="2",
-    width=5,
-    height=1,
-    font=(DEFAULT_FONT, 30, "bold"),
-    bd=1,
-    bg=BUTTON_BG_2,
-    fg=WHITE,
-    command=lambda: show("2"),
-).place(x=150, y=400)
-
-Button(
-    root,
-    text="3",
-    width=5,
-    height=1,
-    font=(DEFAULT_FONT, 30, "bold"),
-    bd=1,
-    bg=BUTTON_BG_2,
-    fg=WHITE,
-    command=lambda: show("3"),
-).place(x=290, y=400)
-
-Button(
-    root,
-    text="0",
-    width=11,
-    height=1,
-    font=(DEFAULT_FONT, 30, "bold"),
-    bd=1,
-    bg=BUTTON_BG_2,
-    fg=WHITE,
-    command=lambda: show("0"),
-).place(x=10, y=500)
-
-Button(
-    root,
-    text=".",
-    width=5,
-    height=1,
-    font=(DEFAULT_FONT, 30, "bold"),
-    bd=1,
-    bg=BUTTON_BG_2,
-    fg=WHITE,
-    command=lambda: show("."),
-).place(x=290, y=500)
-
-Button(
-    root,
-    text="=",
-    width=5,
-    height=3,
-    font=(DEFAULT_FONT, 30, "bold"),
-    bd=1,
-    bg=ORANGE,
-    fg=WHITE,
-    command=lambda: calculate(),
-).place(x=430, y=400)
+# Bind keyboard events
+root.bind("<Key>", on_key)
 
 root.mainloop()
