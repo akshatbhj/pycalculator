@@ -5,6 +5,8 @@ import tkinter as tk
 BLACK_BG = "#000000"
 BUTTON_BG = "#F4F4F4"
 BUTTON_BG_2 = "#E0E0E0"
+BUTTON_BG_3 = "#f2a01b"
+BUTTON_BG_4 = "#1bcbf2"
 WHITE = "#FFFFFF"
 ORANGE = "#F89F17"
 DEFAULT_FONT = "Segoe UI"
@@ -25,12 +27,6 @@ def show(value):
 
 
 def clear():
-    global equation
-    equation = ""
-    label_result.config(text=equation)
-
-
-def clear_all():
     global equation
     equation = ""
     label_result.config(text=equation)
@@ -80,8 +76,6 @@ def on_key(event):
         calculate()
     elif key == "\x08":
         clear()
-    elif key.lower() == "c":
-        clear_all()
 
 
 # Result Label
@@ -115,8 +109,8 @@ button_texts = [
     ("2", 4, 1),
     ("3", 4, 2),
     ("+", 4, 3),
-    ("0", 5, 0),
-    (".", 5, 1),
+    (".", 5, 0),
+    ("0", 5, 1),
     ("=", 5, 2, 1, 3),
 ]
 
@@ -130,9 +124,29 @@ for text, row, col, *args in button_texts:
             height=2,
             font=(DEFAULT_FONT, 18),
             bd=0,
-            bg=BUTTON_BG_2,
+            bg=BUTTON_BG_4,
             fg=BLACK_BG,
             command=clear,
+        ).grid(
+            row=row,
+            column=col,
+            rowspan=rowspan,
+            columnspan=colspan,
+            padx=5,
+            pady=5,
+            sticky="nsew",
+        )
+    elif text == "=":
+        tk.Button(
+            root,
+            text=text,
+            width=3,
+            height=1,
+            font=(DEFAULT_FONT, 28),
+            bd=0,
+            bg=BUTTON_BG_3,
+            fg=BLACK_BG,
+            command=calculate,
         ).grid(
             row=row,
             column=col,
